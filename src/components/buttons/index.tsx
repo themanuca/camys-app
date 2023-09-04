@@ -3,8 +3,9 @@ import { IButtonProps, Button as NativeBaseButton, Text } from "native-base";
 
 type Props = IButtonProps & {
     titulo: string;
+    color:string;
 }
-export function Button({titulo,...res}:Props){
+export function Button({titulo,color,...res}:Props){
     return(
         <NativeBaseButton
         margin={8}
@@ -12,12 +13,13 @@ export function Button({titulo,...res}:Props){
         width={40}
         {...res}
         _pressed={{
-            backgroundColor:"#fb8f32"
+            backgroundColor:"#6a1a1a"
         }}
         >
             <Text 
             fontSize={16} 
             fontWeight={'bold'}
+            color={color}
             >
                 {titulo}
             </Text>

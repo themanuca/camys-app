@@ -2,19 +2,20 @@ import { FormControl, IInputProps, Input as NativeBaseInput } from "native-base"
 
 type Props=IInputProps & {
     errorMessage?:string | null;
+    altura:number;
 }
-export function Input({errorMessage = null,isInvalid,...res}:Props){
+export function Input({errorMessage = null,isInvalid,altura,...res}:Props){
     const invalid = !!errorMessage || isInvalid;
     return(
         <FormControl isInvalid={invalid} marginBottom={4}>
             <NativeBaseInput
-                bg="#886058"
+                bg="#E0FFFF"
                 fontSize={'md'}
                 isInvalid={invalid}
-                height={16}
+                height={altura}
                 borderRadius={10}
                 _focus={{
-                    backgroundColor:'#cdbea0'
+                    backgroundColor:' #d49f9f'
                 }}
                 {...res}
                 _invalid={{

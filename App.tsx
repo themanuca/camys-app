@@ -1,12 +1,9 @@
 
-import { NativeBaseProvider, Box } from "native-base";
-import Login from './src/pages/login';
-
+import Routes from "./src/routes";
 export default function App() {
+
   return (
-    <NativeBaseProvider>
-     <Login/>
-    </NativeBaseProvider>
+      <Routes/>
   );
 }
 
