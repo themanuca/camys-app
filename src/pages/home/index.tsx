@@ -1,9 +1,10 @@
-import { NativeBaseProvider, Box, Text, VStack, Center,Heading, HStack } from "native-base";
+import { NativeBaseProvider, Button as NativeBaseButton, VStack, Center,Heading,  } from "native-base";
 import { Button } from "../../components/buttons";
 import { useNavigation } from "@react-navigation/native";
 import { Input } from "../../components/inputs";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import {AntDesign} from "@expo/vector-icons";
 
 export default function Home() {
 
@@ -11,9 +12,7 @@ export default function Home() {
     status:string;
   }
   const navigation = useNavigation<any>();
-  const [btnStatus, setBtnStatus] = useState(true);
   const {control, handleSubmit, formState:{errors}} = useForm<StatusType>();
-
   function handlerChange(data:StatusType){
     console.log(data)
   }
@@ -47,12 +46,15 @@ export default function Home() {
         color='#FFF5F5' 
         onPress={handleSubmit(handlerChange)}
         />
-        <HStack space={3} justifyContent="center">
-          <Center h="40" w="20" bg="primary.300" rounded="md" shadow={3} />
-          <Center h="40" w="20" bg="primary.500" rounded="md" shadow={3} />
-          <Center h="40" w="20" bg="primary.700" rounded="md" shadow={3} />
-          <Center h="40" w="20" bg="primary.700" rounded="md" shadow={3} />
-        </HStack>;
+        <VStack space={3} justifyContent="center">
+          <NativeBaseButton 
+          onPress={()=>{ navigation.navigate('CreateList')}}
+          style={{borderWidth:2, borderColor:"blue", borderRadius:4, padding:16, backgroundColor:"transparent"}}
+          >
+            <AntDesign name="plus" size={16}/>
+          </NativeBaseButton>
+          
+        </VStack>
       </Center>
     
      </VStack>
