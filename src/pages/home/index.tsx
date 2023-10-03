@@ -1,11 +1,12 @@
-import { NativeBaseProvider, Button as NativeBaseButton, VStack, Center,Heading,  } from "native-base";
+import { NativeBaseProvider, Button as NativeBaseButton, VStack, Center,Heading  } from "native-base";
 import { Button } from "../../components/buttons";
 import { useNavigation } from "@react-navigation/native";
 import { Input } from "../../components/inputs";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {AntDesign} from "@expo/vector-icons";
-
+import tempData from "../../data/tempData";
+import { View,Text,FlatList } from "react-native";
 export default function Home() {
 
   type StatusType = {
@@ -55,6 +56,13 @@ export default function Home() {
           </NativeBaseButton>
           
         </VStack>
+        <FlatList 
+        data={tempData} 
+        keyExtractor={items=>items.nome}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        renderItem={(item)=><View><Text>{item.item.nome}</Text></View>}
+        />
       </Center>
     
      </VStack>
