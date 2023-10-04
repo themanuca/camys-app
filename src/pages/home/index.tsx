@@ -2,11 +2,11 @@ import { NativeBaseProvider, Button as NativeBaseButton, VStack, Center,Heading 
 import { Button } from "../../components/buttons";
 import { useNavigation } from "@react-navigation/native";
 import { Input } from "../../components/inputs";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {AntDesign} from "@expo/vector-icons";
 import tempData from "../../data/tempData";
-import { View,Text,FlatList } from "react-native";
+import { FlatList } from "react-native";
+import CardLista from "../../components/cardLista";
 export default function Home() {
 
   type StatusType = {
@@ -61,7 +61,7 @@ export default function Home() {
         keyExtractor={items=>items.nome}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        renderItem={(item)=><View><Text>{item.item.nome}</Text></View>}
+        renderItem={({item})=><CardLista list={item}/>}
         />
       </Center>
     

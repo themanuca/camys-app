@@ -1,6 +1,7 @@
 
 const tempData = [{
     nome:"",
+    cor:"",
     todos:[]
  }
 ]

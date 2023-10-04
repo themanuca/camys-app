@@ -7,16 +7,37 @@ import { useNavigation } from '@react-navigation/native';
 import tempData from "../../data/tempData";
 
 export default function CreateList() {
+
+    const backGround = [
+        "#9b2626",
+        "#5CD859",
+        "#424A6D",
+        "#595BD9",
+        "#D159D8",
+        "#D85963",
+        "#D88559"
+      ];
     const navigation = useNavigation<any>();
     const [nome, setNome] = useState("");
-    const estado = {
-        name:""
+    const [cor, setCor] = useState(backGround[0]);
+
+    const render = ()=>{
+        return backGround.map(color=>{
+            return(
+                <TouchableOpacity
+                    key={color}
+                    style={[styles.colorSelect, {backgroundColor:color}]}
+                    onPress={()=>setCor(color)}
+                />
+            )
+        })
     }
     const criarLista = () =>{
         console.log(JSON.parse(JSON.stringify(tempData)));
 
-        tempData.push({
+        tempData.unshift({
             nome,
+            cor,
             todos:[]
         });
 
@@ -40,7 +61,8 @@ export default function CreateList() {
                 placeholder="Nome da lista"
                 onChangeText={setNome}
                 />
-                <TouchableOpacity style={[styles.create, {backgroundColor:"#9b2626"}]} onPress={criarLista}>
+                <View style={{flexDirection:"row", justifyContent:"space-between", marginTop:12}}>{render()}</View>
+                <TouchableOpacity style={[styles.create, {backgroundColor:cor}]} onPress={criarLista}>
                     <Text style={{color:"#FFFFFF", fontWeight:"600"}}>Criar!</Text>
                 </TouchableOpacity>
             </View>
@@ -78,6 +100,11 @@ const styles = StyleSheet.create({
         borderRadius:6,
         alignItems:"center",
         justifyContent:"center"
+    },
+    colorSelect:{
+        width:30,
+        height:30,
+        borderRadius:4
     }
 })
 
