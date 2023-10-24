@@ -1,12 +1,16 @@
 import { NativeBaseProvider, Button as NativeBaseButton, VStack, Center,Heading  } from "native-base";
 import { Button } from "../../components/buttons";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Input } from "../../components/inputs";
 import { Controller, useForm } from "react-hook-form";
 import {AntDesign} from "@expo/vector-icons";
 import tempData from "../../data/tempData";
 import { FlatList } from "react-native";
 import CardLista from "../../components/cardLista";
+import { useCallback, useEffect, useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 export default function Home() {
 
   type StatusType = {
@@ -14,9 +18,21 @@ export default function Home() {
   }
   const navigation = useNavigation<any>();
   const {control, handleSubmit, formState:{errors}} = useForm<StatusType>();
+  const [data, setData] = useState<typeof tempData>([])
   function handlerChange(data:StatusType){
     console.log(data)
   }
+
+  async function getListData() {
+    const response = await AsyncStorage.getItem('@newcard');
+    const responseData = ( response? JSON.parse(response):[]);
+    setData(responseData);
+  }
+  
+  useFocusEffect(useCallback(()=>{
+    getListData();
+  },[]))
+
   return (
     <NativeBaseProvider >
      <VStack  flex={1} bg='#FFF5F5' safeArea alignItems='center'>
@@ -57,7 +73,7 @@ export default function Home() {
           
         </VStack>
         <FlatList 
-        data={tempData} 
+        data={data} 
         keyExtractor={items=>items.nome}
         horizontal={true}
         showsHorizontalScrollIndicator={false}

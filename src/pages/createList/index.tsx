@@ -5,6 +5,8 @@ import { useState } from "react";
 import {AntDesign} from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import tempData from "../../data/tempData";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function CreateList() {
 
@@ -32,14 +34,22 @@ export default function CreateList() {
             )
         })
     }
-    const criarLista = () =>{
-        console.log(JSON.parse(JSON.stringify(tempData)));
-
+    const criarLista = async() =>{
+       
+        const response = await AsyncStorage.getItem('@newcard');
+        const responseData = ( response? JSON.parse(response):[]);
+        tempData.unshift(responseData)
+        
         tempData.unshift({
             nome,
             cor,
             todos:[]
         });
+        const data = [...tempData]
+
+        const jsonValue = JSON.stringify(data);
+        await AsyncStorage.setItem('@newcard', jsonValue);
+              
 
         navigation.goBack();
     }

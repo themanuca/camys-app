@@ -23,8 +23,8 @@ const styles=StyleSheet.create({
         height:'80%'
     },
     listTitle:{
-        fontSize:24,
         fontWeight:"700",
+        fontSize:18,
         color:'#FFF5F5',
         marginBottom:18
     }
