@@ -7,7 +7,7 @@ import {AntDesign} from "@expo/vector-icons";
 import tempData from "../../data/tempData";
 import { FlatList } from "react-native";
 import CardLista from "../../components/cardLista";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -32,6 +32,12 @@ export default function Home() {
   useFocusEffect(useCallback(()=>{
     getListData();
   },[]))
+
+  const handleCardClick = (item:any) => {
+    // Coloque o código que você deseja executar quando um card for clicado aqui
+    console.log(`Card clicado: ${item.nome}`);
+    navigation.navigate('ListItens')
+  };
 
   return (
     <NativeBaseProvider >
@@ -77,7 +83,7 @@ export default function Home() {
         keyExtractor={items=>items.nome}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item})=><CardLista list={item}/>}
+        renderItem={({item})=><CardLista list={item} onPress={() => handleCardClick(item)}/>}
         />
       </Center>
     

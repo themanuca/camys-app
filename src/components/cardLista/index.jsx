@@ -1,13 +1,15 @@
-import { View,Text,StyleSheet } from "react-native";
+import { View,Text,StyleSheet,TouchableOpacity } from "react-native";
 import React from "react";
 
-export default cardLista=({list})=>{
+export default cardLista=({list, onPress })=>{
     return(
-        <View style={[styles.listContainer, {backgroundColor:list.cor}]}>
-            <Text style={styles.listTitle} numberOfLines={1}>
-                {list.nome}
-            </Text>
-        </View>
+        <TouchableOpacity onPress={onPress}>
+            <View style={[styles.listContainer, {backgroundColor:list.cor}]}>
+                <Text style={styles.listTitle} numberOfLines={1}>
+                    {list.nome}
+                </Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 
