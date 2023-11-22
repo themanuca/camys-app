@@ -1,9 +1,17 @@
+import { string } from "yup";
 
-const tempData = [{
+export let tempData = [{
+    id:"",
     nome:"",
     cor:"",
-    todos:[]
+    todos:[{
+        id: "",
+        text: "",
+        done: false
+    }]
  }
 ]
-export default tempData
+export function limparTempData() {
+    tempData = [];
+}
   

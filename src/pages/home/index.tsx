@@ -4,7 +4,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Input } from "../../components/inputs";
 import { Controller, useForm } from "react-hook-form";
 import {AntDesign} from "@expo/vector-icons";
-import tempData from "../../data/tempData";
+import {tempData} from "../../data/tempData";
 import { FlatList } from "react-native";
 import CardLista from "../../components/cardLista";
 import { useCallback, useState } from "react";
@@ -27,6 +27,7 @@ export default function Home() {
     const response = await AsyncStorage.getItem('@newcard');
     const responseData = ( response? JSON.parse(response):[]);
     setData(responseData);
+    console.log(responseData)
   }
   
   useFocusEffect(useCallback(()=>{
@@ -36,9 +37,13 @@ export default function Home() {
   const handleCardClick = (item:any) => {
     // Coloque o código que você deseja executar quando um card for clicado aqui
     console.log(`Card clicado: ${item.nome}`);
-    navigation.navigate('ListItens')
+    navigation.navigate('ListItens',{
+      nomeLista:item.nome,
+      idCard:item.id
+    })
   };
 
+ 
   return (
     <NativeBaseProvider >
      <VStack  flex={1} bg='#FFF5F5' safeArea alignItems='center'>

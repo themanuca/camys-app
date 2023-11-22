@@ -4,7 +4,7 @@ import { StyleSheet,TouchableOpacity, View, Text, TextInput } from 'react-native
 import { useState } from "react";
 import {AntDesign} from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-import tempData from "../../data/tempData";
+import {tempData, limparTempData } from "../../data/tempData";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -34,13 +34,15 @@ export default function CreateList() {
             )
         })
     }
+    function generateUniqueId() {
+        var t = '_' + Math.random().toString(36).substr(2, 9);
+        alert(t);
+        return  t
+      }
     const criarLista = async() =>{
-       
-        const response = await AsyncStorage.getItem('@newcard');
-        const responseData = ( response? JSON.parse(response):[]);
-        tempData.unshift(responseData)
         
-        tempData.unshift({
+        tempData.push({
+            id: generateUniqueId(),
             nome,
             cor,
             todos:[]
@@ -49,7 +51,8 @@ export default function CreateList() {
 
         const jsonValue = JSON.stringify(data);
         await AsyncStorage.setItem('@newcard', jsonValue);
-              
+        console.log(tempData);
+
 
         navigation.goBack();
     }
