@@ -35,9 +35,7 @@ export default function CreateList() {
         })
     }
     function generateUniqueId() {
-        var t = '_' + Math.random().toString(36).substr(2, 9);
-        alert(t);
-        return  t
+        return '_' + Math.random().toString(36).substr(2, 9);
       }
     const criarLista = async() =>{
         
@@ -51,9 +49,6 @@ export default function CreateList() {
 
         const jsonValue = JSON.stringify(data);
         await AsyncStorage.setItem('@newcard', jsonValue);
-        console.log(tempData);
-
-
         navigation.goBack();
     }
 
