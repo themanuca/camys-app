@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {tempData} from '../../data/tempData';
 import { KeyboardAvoidingView, NativeBaseProvider,Button as NativeBaseButton, Container, VStack } from 'native-base'
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect,useNavigation, useRoute } from '@react-navigation/native';
 import {AntDesign} from "@expo/vector-icons";
 import { StyleSheet} from 'react-native'
 
@@ -28,24 +28,45 @@ const CardListaItens: React.FC = () => {
   const [refresh, setRefresh] = useState(false);
   const navigation = useNavigation<any>();
   const route = useRoute();
-  const {nomeLista, idCard} = route.params;
+  const {nomeLista, idCard, todosLista} = route.params;
+  const [data, setData] = useState<typeof tempData>([])
+
+
   function generateUniqueId() {
     return '_' + Math.random().toString(36).substr(2, 9);
   }
-  const atualizaTempData = ()=>{
+  const atualizaTempData = async ()=>{
     const itemTemp = tempData.find(item=>item.id === idCard);
     if(itemTemp){
-      for (let i = 0; i < tasks.length; i++) {
-        if (itemTemp.todos[i]) {
-          itemTemp.todos[i].id = tasks[i].id;
-          itemTemp.todos[i].text = tasks[i].text;
-          itemTemp.todos[i].done = tasks[i].done;
-        }else{
-          break;
+      console.log((JSON.stringify(itemTemp))+ "aqui")
+      for (let i = 0; i < tempData.length; i++) {
+        console.log(tempData.length + " "+ tasks.length)
+        for (let j = 0; j < tasks.length; j++) {
+          if(tempData[i].id === idCard){
+            tempData[i].todos = tasks
+            console.log(tempData[i].todos)   
+          }
         }
       }
+      const data = [...tempData]
+      const jsonValue = JSON.stringify(data);
+      await AsyncStorage.setItem('@newcard', jsonValue);
+    }else{
+      return
     }
   }
+
+  async function getListData() {
+    const response = await AsyncStorage.getItem('@newcard');
+    const responseData = ( response? JSON.parse(response):[]);
+    
+  }
+  
+  useEffect( () => {
+     getListData();
+  }, []);
+  
+
   const addTask = () => {
     if (taskText.trim() === '') return;
     const newTask: Task = {
@@ -53,12 +74,17 @@ const CardListaItens: React.FC = () => {
       text: taskText,
       done: false,
     };
-   
-    setTasks([...tasks, newTask]);
-    setTaskText('');
-    atualizaTempData();
-  };
+    
 
+    setTasks([...tasks, newTask]);
+    
+    setTaskText('');
+  };
+  useEffect(() => {
+    console.log("AI MDS")
+    atualizaTempData();
+  }, [tasks]);
+  
   const toggleTask = (taskId: string) => {
     const updatedTasks = tasks.map((task) =>
       task.id === taskId ? { ...task, done: !task.done } : task
