@@ -9,7 +9,7 @@ import { FlatList } from "react-native";
 import CardLista from "../../components/cardLista";
 import { useCallback, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {ScrollView,RefreshControl} from 'react-native';
 
 export default function Home() {
 
@@ -19,6 +19,8 @@ export default function Home() {
   const navigation = useNavigation<any>();
   const {control, handleSubmit, formState:{errors}} = useForm<StatusType>();
   const [data, setData] = useState<typeof tempData>([])
+  const [refresh, setRefresh] = useState(false);
+
   function handlerChange(data:StatusType){
     console.log(data)
   }
@@ -27,7 +29,6 @@ export default function Home() {
     const response = await AsyncStorage.getItem('@newcard');
     const responseData = ( response? JSON.parse(response):[]);
     setData(responseData);
-    console.log(responseData)
   }
   
   useFocusEffect(useCallback(()=>{
@@ -39,13 +40,16 @@ export default function Home() {
     console.log(`Card clicado: ${item.nome}`);
     navigation.navigate('ListItens',{
       nomeLista:item.nome,
-      idCard:item.id
+      idCard:item.id,
+      todosLista:item.todos
     })
   };
 
  
   return (
     <NativeBaseProvider >
+    <ScrollView contentContainerStyle={{flex:1,width: '100%'}} horizontal={true} refreshControl={<RefreshControl refreshing={refresh}/>}>
+
      <VStack  flex={1} bg='#FFF5F5' safeArea alignItems='center'>
       <Center>
         <Heading color={'#9b2626'} margin={30} >
@@ -93,6 +97,7 @@ export default function Home() {
       </Center>
     
      </VStack>
+     </ScrollView>
 
     </NativeBaseProvider>
   );

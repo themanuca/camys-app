@@ -13,7 +13,6 @@ export default function Login() {
   const {control, handleSubmit, formState:{errors}} = useForm<LoginType>();
 
   function hundleLogin(data:LoginType){
-    console.log(data);
      navigation.navigate("Home")
   }
 
